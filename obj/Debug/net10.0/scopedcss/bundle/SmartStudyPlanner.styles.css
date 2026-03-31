@@ -1,0 +1,250 @@
+/* /Components/Layout/MainLayout.razor.rz.scp.css */
+.page[b-g3bbq116po] {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: row;
+}
+
+.sidebar[b-g3bbq116po] {
+    width: 260px;
+    background: linear-gradient(180deg, #2b3e50 0%, #1e2a38 100%);
+    color: white;
+    box-shadow: 3px 0 8px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+}
+
+main[b-g3bbq116po] {
+    flex: 1;
+    background-color: #f8f9fa;
+    overflow-y: auto;
+}
+
+.top-row[b-g3bbq116po] {
+    background-color: white;
+    border-bottom: 1px solid #dee2e6;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    z-index: 10;
+}
+
+.content[b-g3bbq116po] {
+    padding: 2rem;
+    max-width: 1200px;
+}
+
+@media (max-width: 992px) {
+    .page[b-g3bbq116po] {
+        flex-direction: column;
+    }
+    .sidebar[b-g3bbq116po] {
+        width: 100%;
+        height: auto;
+    }
+}
+/* /Components/Layout/NavMenu.razor.rz.scp.css */
+.navbar-toggler[b-yzyhbpslvr] {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem;
+    margin: 0.8rem;
+}
+
+.nav-scrollable[b-yzyhbpslvr] {
+    overflow-y: auto;
+    height: calc(100vh - 70px);
+}
+
+.nav-link[b-yzyhbpslvr] {
+    color: #e9ecef;
+    display: flex;
+    align-items: center;
+    padding: 0.9rem 1.5rem;
+    font-size: 1.05rem;
+    transition: all 0.2s;
+}
+
+.nav-link:hover[b-yzyhbpslvr] {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: white;
+}
+
+.nav-link.active[b-yzyhbpslvr] {
+    background-color: rgba(255, 255, 255, 0.25);
+    color: white;
+    border-left: 4px solid #0d6efd;
+}
+
+.nav-link .oi[b-yzyhbpslvr] {
+    margin-right: 12px;
+    font-size: 1.2rem;
+}
+
+.navbar-brand[b-yzyhbpslvr] {
+    font-weight: 700;
+    font-size: 1.45rem;
+    color: white !important;
+    padding: 1rem 1.5rem;
+}
+/* /Components/Layout/ReconnectModal.razor.rz.scp.css */
+.components-reconnect-first-attempt-visible[b-mi9evmypqw],
+.components-reconnect-repeated-attempt-visible[b-mi9evmypqw],
+.components-reconnect-failed-visible[b-mi9evmypqw],
+.components-pause-visible[b-mi9evmypqw],
+.components-resume-failed-visible[b-mi9evmypqw],
+.components-rejoining-animation[b-mi9evmypqw] {
+    display: none;
+}
+
+#components-reconnect-modal.components-reconnect-show .components-reconnect-first-attempt-visible[b-mi9evmypqw],
+#components-reconnect-modal.components-reconnect-show .components-rejoining-animation[b-mi9evmypqw],
+#components-reconnect-modal.components-reconnect-paused .components-pause-visible[b-mi9evmypqw],
+#components-reconnect-modal.components-reconnect-resume-failed .components-resume-failed-visible[b-mi9evmypqw],
+#components-reconnect-modal.components-reconnect-retrying[b-mi9evmypqw],
+#components-reconnect-modal.components-reconnect-retrying .components-reconnect-repeated-attempt-visible[b-mi9evmypqw],
+#components-reconnect-modal.components-reconnect-retrying .components-rejoining-animation[b-mi9evmypqw],
+#components-reconnect-modal.components-reconnect-failed[b-mi9evmypqw],
+#components-reconnect-modal.components-reconnect-failed .components-reconnect-failed-visible[b-mi9evmypqw] {
+    display: block;
+}
+
+
+#components-reconnect-modal[b-mi9evmypqw] {
+    background-color: white;
+    width: 20rem;
+    margin: 20vh auto;
+    padding: 2rem;
+    border: 0;
+    border-radius: 0.5rem;
+    box-shadow: 0 3px 6px 2px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: display 0.5s allow-discrete, overlay 0.5s allow-discrete;
+    animation: components-reconnect-modal-fadeOutOpacity-b-mi9evmypqw 0.5s both;
+    &[open]
+
+{
+    animation: components-reconnect-modal-slideUp-b-mi9evmypqw 1.5s cubic-bezier(.05, .89, .25, 1.02) 0.3s, components-reconnect-modal-fadeInOpacity-b-mi9evmypqw 0.5s ease-in-out 0.3s;
+    animation-fill-mode: both;
+}
+
+}
+
+#components-reconnect-modal[b-mi9evmypqw]::backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
+    animation: components-reconnect-modal-fadeInOpacity-b-mi9evmypqw 0.5s ease-in-out;
+    opacity: 1;
+}
+
+@keyframes components-reconnect-modal-slideUp-b-mi9evmypqw {
+    0% {
+        transform: translateY(30px) scale(0.95);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes components-reconnect-modal-fadeInOpacity-b-mi9evmypqw {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes components-reconnect-modal-fadeOutOpacity-b-mi9evmypqw {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.components-reconnect-container[b-mi9evmypqw] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+#components-reconnect-modal p[b-mi9evmypqw] {
+    margin: 0;
+    text-align: center;
+}
+
+#components-reconnect-modal button[b-mi9evmypqw] {
+    border: 0;
+    background-color: #6b9ed2;
+    color: white;
+    padding: 4px 24px;
+    border-radius: 4px;
+}
+
+    #components-reconnect-modal button:hover[b-mi9evmypqw] {
+        background-color: #3b6ea2;
+    }
+
+    #components-reconnect-modal button:active[b-mi9evmypqw] {
+        background-color: #6b9ed2;
+    }
+
+.components-rejoining-animation[b-mi9evmypqw] {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+    .components-rejoining-animation div[b-mi9evmypqw] {
+        position: absolute;
+        border: 3px solid #0087ff;
+        opacity: 1;
+        border-radius: 50%;
+        animation: components-rejoining-animation-b-mi9evmypqw 1.5s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+    }
+
+        .components-rejoining-animation div:nth-child(2)[b-mi9evmypqw] {
+            animation-delay: -0.5s;
+        }
+
+@keyframes components-rejoining-animation-b-mi9evmypqw {
+    0% {
+        top: 40px;
+        left: 40px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+
+    4.9% {
+        top: 40px;
+        left: 40px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+
+    5% {
+        top: 40px;
+        left: 40px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+
+    100% {
+        top: 0px;
+        left: 0px;
+        width: 80px;
+        height: 80px;
+        opacity: 0;
+    }
+}
