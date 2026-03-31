@@ -1,0 +1,209 @@
+@page "/service-test"
+@using SmartStudyPlanner.Models
+@inject TaskService TaskService
+@inject SubjectService SubjectService
+
+<h3>Service Test Page</h3>
+
+<p>Testing CRUD operations for Subjects and Tasks.</p>
+
+@if (!string.IsNullOrWhiteSpace(message))
+{
+    <div class="alert alert-info">@message</div>
+}
+
+<div class="mb-3">
+    <button class="btn btn-primary me-2" @onclick="AddSampleSubject">Add Subject</button>
+    <button class="btn btn-success me-2" @onclick="AddSampleTask">Add Task</button>
+    <button class="btn btn-secondary me-2" @onclick="LoadData">Reload</button>
+</div>
+
+<div class="mb-4">
+    <label><strong>Filter Tasks by Subject:</strong></label>
+    <select class="form-select" @onchange="FilterTasksBySubject">
+        <option value="">All</option>
+        @foreach (var subject in subjects)
+        {
+            <option value="@subject.Id">@subject.Name</option>
+        }
+    </select>
+</div>
+
+<h4>Subjects</h4>
+@if (subjects.Count == 0)
+{
+    <p>No subjects found.</p>
+}
+else
+{
+    <ul>
+        @foreach (var subject in subjects)
+        {
+            <li class="mb-2">
+                <strong>@subject.Id - @subject.Name</strong>
+
+                <button class="btn btn-sm btn-warning ms-2"
+                        @onclick="() => RenameSubject(subject.Id)">
+                    Rename
+                </button>
+
+                <button class="btn btn-sm btn-danger ms-2"
+                        @onclick="() => DeleteSubject(subject.Id)">
+                    Delete
+                </button>
+            </li>
+        }
+    </ul>
+}
+
+<h4>Tasks</h4>
+@if (tasks.Count == 0)
+{
+    <p>No tasks found.</p>
+}
+else
+{
+    <ul>
+        @foreach (var task in tasks)
+        {
+            <li class="mb-3">
+                <strong>@task.Title</strong> - @task.Description
+                <br />
+                Due: @task.DueDate.ToShortDateString()
+                <br />
+                SubjectId: @task.SubjectId
+                <br />
+                Completed: @task.IsCompleted
+                <br />
+
+                <button class="btn btn-sm btn-warning mt-2 me-2"
+                        @onclick="() => MarkTaskCompleted(task.Id)">
+                    Complete
+                </button>
+
+                <button class="btn btn-sm btn-danger mt-2"
+                        @onclick="() => DeleteTask(task.Id)">
+                    Delete
+                </button>
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private List<Subject> subjects = new();
+    private List<StudyTask> tasks = new();
+    private string message = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        subjects = await SubjectService.GetSubjectsByUserAsync();
+        tasks = await TaskService.GetTasksByUserAsync();
+        message = $"Loaded {subjects.Count} subjects and {tasks.Count} tasks.";
+    }
+
+    private async Task AddSampleSubject()
+    {
+        var subject = new Subject
+        {
+            Name = $"Subject {subjects.Count + 1}"
+        };
+
+        await SubjectService.AddSubjectAsync(subject);
+        await LoadData();
+        message = "Subject added.";
+    }
+
+    private async Task AddSampleTask()
+    {
+        var currentSubjects = await SubjectService.GetSubjectsByUserAsync();
+
+        if (currentSubjects.Count == 0)
+        {
+            message = "Add a subject first.";
+            return;
+        }
+
+        var task = new StudyTask
+        {
+            Title = $"Task {tasks.Count + 1}",
+            Description = "Study content",
+            DueDate = DateTime.Now.AddDays(2),
+            IsCompleted = false,
+            SubjectId = currentSubjects.First().Id
+        };
+
+        await TaskService.AddTaskAsync(task);
+        await LoadData();
+        message = "Task added.";
+    }
+
+    private async Task RenameSubject(int subjectId)
+    {
+        var subject = await SubjectService.GetSubjectByIdAsync(subjectId);
+
+        if (subject is null)
+        {
+            message = "Subject not found.";
+            return;
+        }
+
+        subject.Name = $"Updated Subject {subject.Id}";
+        await SubjectService.UpdateSubjectAsync(subject);
+        await LoadData();
+        message = "Subject renamed.";
+    }
+
+    private async Task DeleteSubject(int subjectId)
+    {
+        await SubjectService.DeleteSubjectAsync(subjectId);
+        await LoadData();
+        message = "Subject deleted.";
+    }
+
+    private async Task MarkTaskCompleted(int taskId)
+    {
+        var task = await TaskService.GetTaskByIdAsync(taskId);
+
+        if (task is null)
+        {
+            message = "Task not found.";
+            return;
+        }
+
+        task.IsCompleted = true;
+        await TaskService.UpdateTaskAsync(task);
+        await LoadData();
+        message = "Task completed.";
+    }
+
+    private async Task DeleteTask(int taskId)
+    {
+        await TaskService.DeleteTaskAsync(taskId);
+        await LoadData();
+        message = "Task deleted.";
+    }
+
+    private async Task FilterTasksBySubject(ChangeEventArgs e)
+    {
+        var value = e.Value?.ToString();
+
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            tasks = await TaskService.GetTasksByUserAsync();
+            message = "Showing all tasks.";
+            return;
+        }
+
+        if (int.TryParse(value, out int subjectId))
+        {
+            tasks = await TaskService.GetTasksBySubjectAsync(subjectId);
+            message = $"Filtered by subject {subjectId}.";
+        }
+    }
+}
