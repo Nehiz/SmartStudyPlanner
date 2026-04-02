@@ -1,6 +1,10 @@
 using SmartStudyPlanner.Components;
+using SmartStudyPlanner.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+options.UseSqlite("Data Source=smartstudyplanner.db"));
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
