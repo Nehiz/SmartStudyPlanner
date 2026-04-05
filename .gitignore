@@ -1,19 +1,41 @@
+# Build results
 bin/
 obj/
-*.user
-*.suo
-*.log
+*.dll
+*.exe
+*.pdb
+
+# SQLite database files
 *.db
-*.sqlite
-*.cache
+*.db-shm
+*.db-wal
+
+# Visual Studio cache/options
 .vs/
-bin/
-obj/
+.vscode/
+
+# User-specific files
 *.user
-*.suo
-*.log
-*.db
-*.sqlite
-*.cache
-.vs/
-smartstudyplanner.db
+*.userosscache
+*.sln.docstates
+
+# Entity Framework Core
+Migrations/
+
+# Node
+node_modules/
+package-lock.json
+
+# Environment
+.env
+.env.local
+*.local.json
+
+# Documentation (working files)
+CODE_REVIEW_SUMMARY.md
+
+# OS
+.DS_Store
+Thumbs.db
+
+.fake

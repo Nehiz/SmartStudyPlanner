@@ -42,3 +42,17 @@
     color: white !important;
     padding: 1rem 1.5rem;
 }
+
+/* Divider between public and private links */
+.nav-divider {
+    margin: 0.5rem 1rem;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Make icons look better */
+.nav-link .oi {
+    margin-right: 12px;
+    width: 22px;
+    font-size: 1.25rem;
+    text-align: center;
+}
